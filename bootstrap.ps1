@@ -113,7 +113,7 @@ if ($needDeps) {
     # Com --no-index ele consome o arquivo baixado e pula o download.
     if (Test-Path $wheelsDir) {
         Get-ChildItem $wheelsDir -Filter *.whl -ErrorAction SilentlyContinue | ForEach-Object {
-            & $venvPython -m pip install --no-index --find-links $wheelsDir $_.FullName --quiet 2>$null
+            & $venvPython -m pip install --no-index --no-deps $_.FullName --quiet 2>$null
             if ($LASTEXITCODE -eq 0) { Write-Ok "Instalado do disco local: $($_.Name)" }
         }
     }
