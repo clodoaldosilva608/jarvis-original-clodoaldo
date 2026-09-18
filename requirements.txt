@@ -27,7 +27,7 @@ pygetwindow
 
 # ── Vision & media ────────────────────────────────────────────────────────────
 pillow>=10,<13
-opencv-python>=4.8,<5
+opencv-python>=4.8,<6
 mss>=9,<11
 
 # ── System, files & documents ─────────────────────────────────────────────────

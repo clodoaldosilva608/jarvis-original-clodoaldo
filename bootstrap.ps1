@@ -108,6 +108,16 @@ if ($needDeps) {
         }
     }
 
+    # Instala primeiro os wheels grandes do disco local: quando a versao do
+    # PyPI empata com a local, o pip prefere o indice e re-baixa 176 MB a toa.
+    # Com --no-index ele consome o arquivo baixado e pula o download.
+    if (Test-Path $wheelsDir) {
+        Get-ChildItem $wheelsDir -Filter *.whl -ErrorAction SilentlyContinue | ForEach-Object {
+            & $venvPython -m pip install --no-index --find-links $wheelsDir $_.FullName --quiet 2>$null
+            if ($LASTEXITCODE -eq 0) { Write-Ok "Instalado do disco local: $($_.Name)" }
+        }
+    }
+
     Write-Step "Instalando dependencias (5-10 min na primeira execucao)..."
     & $venvPython -m pip install --upgrade pip --quiet
     $pipArgs = @("-m", "pip", "install", "-r", "requirements.txt", "--retries", "15", "--timeout", "90")
